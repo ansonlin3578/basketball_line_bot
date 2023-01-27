@@ -1,8 +1,8 @@
 services:
 - type: web
-  name: basketball_linebot
+  name: basketball_line_bot
   env: python
-  repo: https://github.com/ansonlin3578/basketball_linebot.git
+  repo: https://github.com/ansonlin3578/basketball_line_bot.git
   buildCommand: cd examples/flask-echo;pip install gunicorn -r requirements.txt
   startCommand: cd examples/flask-echo;gunicorn app:app
   plan: free
