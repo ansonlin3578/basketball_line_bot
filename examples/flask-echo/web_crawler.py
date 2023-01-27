@@ -60,8 +60,8 @@ def game_today():
     links = soup.find_all("a")
     hrefs = [link.get("href") for link in links]
     box_scores = [
-        link for link in hrefs if link and ("boxscores" in link) and \
-            ("pbp" not in link) and ("shot-chart" not in link)
+        link for link in hrefs if link and ("boxscores" in link) and
+        ("pbp" not in link) and ("shot-chart" not in link)
         ]
     box_scores = [i for n, i in enumerate(box_scores) if i not in box_scores[:n]]
     box_scores = [f"https://www.basketball-reference.com{link}" for link in box_scores]
