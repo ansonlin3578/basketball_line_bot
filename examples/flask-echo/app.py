@@ -28,10 +28,10 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-app = Flask(__name__)
-
 # call web_crawler
 from web_crawler import game_today
+
+app = Flask(__name__)
 
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
@@ -67,13 +67,13 @@ def callback():
             continue
         if not isinstance(event.message, TextMessage):
             continue
-        
+
         if event.message.text == "games":
             content = game_today()
             line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content)
-        )
+                event.reply_token,
+                TextSendMessage(text=content)
+            )
             return 'OK'
 
         line_bot_api.reply_message(
