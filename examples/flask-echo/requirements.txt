@@ -1,2 +1,6 @@
 line-bot-sdk
 flask
+datetime
+playwright
+bs4
+pandas
