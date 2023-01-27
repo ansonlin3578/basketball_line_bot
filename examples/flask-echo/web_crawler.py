@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import asyncio
 import pandas as pd
 
+
 async def get_html(url, selector, sleep=5, retries=3):
     html = None
     for i in range(1, retries+1):
@@ -45,8 +46,8 @@ def read_line_score(soup):
 
 def game_today():
     # time long difference bwtween taiwan & USA
-    curr_time = datetime.now() - timedelta(days=2) 
-    curr_year , curr_month, curr_day = curr_time.year, curr_time.month,curr_time.day
+    curr_time = datetime.now() - timedelta(days=2)
+    curr_year, curr_month, curr_day = curr_time.year, curr_time.month, curr_time.day
     print("year : ", curr_year)
     print("month : ", curr_month)
     print("date : ", curr_day)
@@ -58,8 +59,11 @@ def game_today():
     soup = BeautifulSoup(html_test, features="html.parser")
     links = soup.find_all("a")
     hrefs = [link.get("href") for link in links]
-    box_scores = [link for link in hrefs if link and ("boxscores" in link) and ("pbp" not in link) and ("shot-chart" not in link)]
-    box_scores = [i for n, i in enumerate(box_scores) if i not in box_scores[:n]] 
+    box_scores = [
+        link for link in hrefs if link and ("boxscores" in link) and \
+            ("pbp" not in link) and ("shot-chart" not in link)
+        ]
+    box_scores = [i for n, i in enumerate(box_scores) if i not in box_scores[:n]]
     box_scores = [f"https://www.basketball-reference.com{link}" for link in box_scores]
 
     result_str = ""
@@ -69,5 +73,4 @@ def game_today():
         line_score - line_score.set_axis(['Visit', 'Home'], axis="index")
         game_string = line_score.to_string()
         result_str = f"{result_str}\n###############\n" + game_string
-
     return result_str
