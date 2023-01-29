@@ -23,7 +23,7 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements-dev.txt ]; then python -m pip install -r requirements-dev.txt; fi
     - name: Ensure browsers are installed
-      run: python -m playwright install --with-deps
+      run: npx playwright install-deps
     - name: Test with pytest
       run: |
         tox
