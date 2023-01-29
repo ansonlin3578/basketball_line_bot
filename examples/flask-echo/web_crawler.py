@@ -13,7 +13,7 @@ async def get_html(url, selector, sleep=5, retries=3):
         try:
             async with async_playwright() as p:
                 browser = await p.chromium.launch(
-                    executable_path = r'C:\Users\User\AppData\Local\ms-playwright\chromium-1041\chrome-win\chrome.exe'
+                    executable_path=r'C:\Users\User\AppData\Local\ms-playwright\chromium-1041\chrome-win\chrome.exe'
                 )
                 page = await browser.new_page()
                 await page.goto(url)
