@@ -28,8 +28,7 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
 
-# call web_crawler
-from web_crawler import game_today
+# call nba-api
 from nba_api.live.nba.endpoints import scoreboard
 import pandas as pd
 from datetime import datetime, timedelta
@@ -72,7 +71,7 @@ def callback():
             continue
 
         if event.message.text == "games":
-            curr_time = datetime.now() - timedelta(days=1) #台灣美國時差
+            curr_time = datetime.now() - timedelta(days=1)
             curr_year, curr_month, curr_day = curr_time.year, curr_time.month, curr_time.day
             print("year : ", curr_year)
             print("month : ", curr_month)
@@ -91,7 +90,7 @@ def callback():
                 totals = [total_games[i]['awayTeam']['score'], total_games[i]['homeTeam']['score']]
                 data = {'team': teams,
                         'total': totals
-                }
+                    }
                 df = pd.DataFrame(data, index=pd_idx)
                 game_string = df.to_string()
                 result_str = f"{result_str}\n#########################\n" + game_string
