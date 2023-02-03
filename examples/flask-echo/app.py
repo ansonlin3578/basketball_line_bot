@@ -90,7 +90,7 @@ def callback():
                 totals = [total_games[i]['awayTeam']['score'], total_games[i]['homeTeam']['score']]
                 data = {'team': teams,
                         'total': totals
-                    }
+                        }
                 df = pd.DataFrame(data, index=pd_idx)
                 game_string = df.to_string()
                 result_str = f"{result_str}\n#########################\n" + game_string
