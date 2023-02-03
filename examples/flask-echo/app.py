@@ -30,6 +30,9 @@ from linebot.models import (
 
 # call web_crawler
 from web_crawler import game_today
+from nba_api.live.nba.endpoints import scoreboard
+import pandas as pd
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -69,12 +72,30 @@ def callback():
             continue
 
         if event.message.text == "games":
-            content = game_today()
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=content)
-            )
-            return 'OK'
+            curr_time = datetime.now() - timedelta(days=1) #台灣美國時差
+            curr_year, curr_month, curr_day = curr_time.year, curr_time.month, curr_time.day
+            print("year : ", curr_year)
+            print("month : ", curr_month)
+            print("date : ", curr_day)
+
+            # Today's Score Board
+            games = scoreboard.ScoreBoard()
+
+            games_count = len(games.get_dict()["scoreboard"]["games"])
+            total_games = games.get_dict()["scoreboard"]["games"]
+            pd_idx = ['Visit', 'Home']
+
+            result_str = f'Date: {curr_year}-{curr_month}-{curr_day}\n'
+            for i in range(games_count):
+                teams = [total_games[i]['awayTeam']['teamCity'], total_games[i]['homeTeam']['teamCity']]
+                totals = [total_games[i]['awayTeam']['score'], total_games[i]['homeTeam']['score']]
+                data = {'team': teams,
+                        'total': totals
+                }
+                df = pd.DataFrame(data, index=pd_idx)
+                game_string = df.to_string()
+                result_str = f"{result_str}\n#########################\n" + game_string
+                return 'OK'
 
         line_bot_api.reply_message(
             event.reply_token,
